@@ -13,9 +13,13 @@
 
 
 // imagine a menu card in restaurant
-// customer - client, waiter - server, kitchen room - db
+// customer - client, waiter - server(expressjs) of restaurant(NodeJS), kitchen room - db, chef - server of kitchen
 // collection of all lists(menu card) - api
 // option in that list - endpoint
+
+
+// Nodejs server responsible for handling HTTP request from client and returning responses.
+// it process these requests, communicate to db server and sends data to client 
 
 
 // creating server in NodeJS using express package
