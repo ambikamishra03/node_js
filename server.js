@@ -56,16 +56,32 @@ app.get('/menu', async (req,res) =>{
   }
 })
 
-app.post('/menu', (req,res) =>{
-  const data = req.body;
-  const menuItem =  new MenuItem(data);
-   menuItem.save().then(menu =>{
+app.post('/menu', async (req,res) =>{
+    try {
+    const data = req.body;
+    const menuItem =  new MenuItem(data);
+    const response = await menuItem.save();
       console.log('Menu data saved');
-      res.status(200).json(menu);
-   }).catch(error => {
+      res.status(200).json(response);
+    } catch (error) {
     console.error('Error saving person', error);
     res.status(500).json({ error: 'Internal server error' });
-});
+    } 
+})
+
+app.get('/person/:workType',async (req,res)=>{
+   try {
+    const workType = req.params.workType;
+  if(workType == 'chef' || workType == 'manager' || workType == 'waiter'){
+    const response = await Person.find({work:workType});
+    res.status(200).json(response);
+  }else{ 
+    res.status(404).json({error: 'invalid work type'})
+  }
+   } catch (error) {
+    console.log('Error while fetching person data');
+    res.status(500).json({error:'Internal server error'})
+   }
 })
 
 app.listen(3000,() =>{
