@@ -1,0 +1,7 @@
+Git is like a time machine of your code.
+git init - tells git to start tracking changes in your project folder.
+git status - find which folders are untracked
+git add . - save all changes
+.gitignore - avoid to track files that are added in gitignore
+git commit -m "commit"  - save changes upto here
+git push -u origin main - push code to github

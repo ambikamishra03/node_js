@@ -32,3 +32,11 @@
 // it gives us data in form which we needed.
 // eg: bodyParser.json() automatically parses json data from request body and convert it 
 // into javascript object, which is then stored in req.body 
+// authentication - limited access,verify identity of user or system entity attempting to access resources or perform an action.
+// this involves checking credential such as username and password or using other authentication methods like tokens api keys or certificates. 
+
+// authorization - once identity verified through authentication, system moves on authorization.it determines what actions or resources the
+// authenticated user or entity is allowed to access based on their permission, roles or other access control mechanism. 
+
+// before u can determine what someone is allowed to do(authorization), u need to know who they are(authentication)
+// authentication establishes identity,authorization associated with identity.
