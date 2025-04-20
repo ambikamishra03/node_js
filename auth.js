@@ -6,13 +6,13 @@ const Person = require('./models/person')
 // authentication(passport.js is middleware add authentication related functionality)
 passport.use(new localStrategy(async (USERNAME, password,done) =>{
     try{ 
-      console.log('Recieved credentials',USERNAME,password);
+    //   console.log('Recieved credentials',USERNAME,password);
       const user = await Person.findOne({username:USERNAME});
       if(!user){
         return done(null, false,{message: 'Incorrect username'});
         // done(error, user, info) 
       }
-      const isPswrdMatch = user.password === password ? true: false;
+      const isPswrdMatch = await user.comparePassword(password);
       if(isPswrdMatch){
         return done(null,user);
       }else{

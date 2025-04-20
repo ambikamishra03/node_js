@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 // middleware function 
 const logRequest = (req,res,next) =>{
-console.log(`${new Date().toLocaleString()} request made to: ${req.originalUrl}`);
+// console.log(`${new Date().toLocaleString()} request made to: ${req.originalUrl}`);
 next(); // callback that signals to express that the current middleware function has completed its time to move on next middleware function.  
 }
 
