@@ -3,7 +3,7 @@ const Person = require("../models/person");
 const router = express.Router();
 const { jwtAuthMiddleware, generateToken } = require('./../jwt');
 
-router.get("/", async (req, res) => {
+router.get("/",jwtAuthMiddleware, async (req, res) => {
   try {
     const data = await Person.find();
     console.log("person data fetched successfully");
@@ -14,15 +14,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+// signup router
 router.post("/signup", async (req, res) => {
   try {
     const data = req.body;
     const newPerson = new Person(data);
 
     const response = await newPerson.save();
-    console.log("Data saved");
-    const token = generateToken(response.username);
-    console.log("token: ",token);
+    // console.log("Data saved");
+    const payload = {
+      id:response.id,
+      username:response.username
+    }
+    console.log(payload);
+    // token has 3 parts - headers, payload and signature
+    const token = generateToken(payload);
+    // console.log("token: ",token);
     
     res.status(200).json({response: response,token:token});
   } catch (error) {
@@ -31,6 +38,43 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+
+// login router
+
+router.post('/login',async (req,res) =>{
+  try {
+    // extract username and password from request body
+     const {username, password} = req.body;
+     const user = await Person.findOne({username:username});
+     if(!user || !(await user.comparePassword(password))){
+      return res.status(401).json({error:"invalid username or password"})
+     }
+     const payload = {
+      id : user.id,
+      username: user.username
+     }
+     const token = generateToken(payload);
+      res.json({token});
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+})
+
+
+// profile routes 
+router.get('/profile',async (req,res) =>{
+   try {
+    const userData = req.user;
+    console.log(userData);
+    const userId = userData.id;
+    const user = await Person.findById(userId);
+    res.status(200).json({user});
+   } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+   }
+})
 router.get("/:workType", async (req, res) => {
   try {
     const workType = req.params.workType;

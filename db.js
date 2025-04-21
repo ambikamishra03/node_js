@@ -4,10 +4,7 @@ const mongoose = require('mongoose')
 
 const mongoUrl = 'mongodb://localhost:27017/hotels'
 
-mongoose.connect(mongoUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology:true
-})
+mongoose.connect(mongoUrl)
 
 const db = mongoose.connection; // this object is what we will use to handle events and interact with database.
 db.on('connected',()=>{

@@ -57,14 +57,15 @@ personSchema.pre('save',async function(next){
     }
 })
 
-personSchema.methods.comparePassword = async (candidtaePassword) =>{
-  try {
-    const isMatch = await bcrypt.compare(candidtaePassword,this.password)
-    return isMatch;
-  } catch (error) {
-    throw error;
-  }
-}
+personSchema.methods.comparePassword = async function(candidatePassword) {
+    try {
+      const isMatch = await bcrypt.compare(candidatePassword, this.password);
+      return isMatch;
+    } catch (error) {
+      throw error;
+    }
+  };
+  
 
 const Person = mongoose.model('Person',personSchema);
 
